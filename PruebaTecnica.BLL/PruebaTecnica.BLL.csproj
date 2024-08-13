@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\PruebaTecnica.DAL\PruebaTecnica.DAL.csproj" />
+    <ProjectReference Include="..\PruebaTecnica.DTO\PruebaTecnica.DTO.csproj" />
+    <ProjectReference Include="..\PruebaTecnica.Model\PruebaTecnica.Model.csproj" />
+    <ProjectReference Include="..\PruebaTecnica.Utility\PruebaTecnica.Utility.csproj" />
+  </ItemGroup>
+
+</Project>
