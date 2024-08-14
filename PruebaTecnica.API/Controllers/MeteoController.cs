@@ -26,7 +26,7 @@ namespace PruebaTecnica.API.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Consultar([FromRoute] string modo,[FromRoute] string fechaDesde,[FromRoute] string fechaHasta)
         {
-            var rsp = new Response<ParametroSensorDTO>();
+            var rsp = new Response();
             try
             {
                 //Transforma el formato ingresado al reconocible con el sistema
@@ -39,7 +39,7 @@ namespace PruebaTecnica.API.Controllers
 
                 if (rsp.device_data.Count == 0) return NotFound("No existen datos en ese rango de fechas"); 
                 
-                rsp.device_dates = await _sensorService.ObtenerFecha(modo, fechaI, fechaF); // Busca los valores de las fechas
+                rsp.device_dates = _sensorService.ObtenerFecha(modo, fechaI, fechaF); // Busca los valores de las fechas
                 return Ok(rsp);
             }
             catch (Exception)

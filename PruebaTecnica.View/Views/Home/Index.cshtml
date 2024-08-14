@@ -1,0 +1,186 @@
+﻿@using System.ComponentModel.DataAnnotations;
+@using ChartJs.Blazor;
+@using Newtonsoft.Json
+@using System.Text.Json;
+@using System.Web;
+
+@model Response;
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Bienvenido</h1>
+    <p>Selecciona el rango de fechas y el modo de busqueda para generar el gráfico.</p>
+
+    <form class="d-flex justify-content-around my-5 w-75 mx-auto" method="get">
+        <div class="d-flex input-group align-items-center" style="width: 300px;" >
+          <span class="input-group-addon mx-4" id="basic-addon1" asp-for="FechaInicio">Fecha Inicio: </span>
+            <input type="date" class="form-control" name="fechaInicio" placeholder="Username" aria-describedby="basic-addon1" asp-route-="">
+        </div>
+        
+        <div class="d-flex input-group align-items-center" style="width: 300px;">
+            <span class="input-group-addon mx-4"  id="basic-addon1">Fecha Final: </span>
+            <input type="date" class="form-control" name="fechaFinal" placeholder="Username" aria-describedby="basic-addon1">
+        </div>
+        <div class="d-flex form-check align-items-center">
+            <input class="form-check-input mx-4" type="radio" name="modo" id="modo1" value="day" checked>
+            <label class="form-check-label" for="modo1">
+                Días
+            </label>
+        </div>
+        <div class="d-flex form-check align-items-center">
+            <input class="form-check-input mx-4" type="radio" name="modo" id="modo2" value="month">
+            <label class="form-check-label" for="modo2">
+                Meses
+            </label>
+        </div>
+        <button type="submit" class="btn btn-light">Buscar</button>
+    </form>
+    @if(Model != null)
+    {
+        <div class="d-flex justify-content-around my-5 flex-lg-wrap" style="width: 100%; min-height:700px">
+            <div class="card text-bg-secondary mb-3" style="width: 650px;">
+                <div class="card-header">TEMPERATURA</div>
+                <div class="card-body">
+                    <canvas style="height:750px;" id="myTemperatura"></canvas>
+                </div>
+            </div>
+            <div class="card text-bg-secondary mb-3" style="width: 650px;">
+                <div class="card-header">RADIACION</div>
+                <div class="card-body">
+                    <canvas style="height:650px" id="myRadiacion"></canvas>
+                </div>
+            </div>
+            <div class="card text-bg-secondary mb-3" style="width: 650px;">
+                <div class="card-header">HUMEDAD</div>
+                <div class="card-body">
+                    <canvas style="height:650px" id="myHumedad"></canvas>
+                </div>
+            </div>
+        </div>
+    }else{
+        <p>No existen datos con los valores ingresados</p>
+    }
+</div>
+
+@section Scripts{
+    <script>
+        
+        function inicio() {
+            const graficoTemperatura = document.getElementById('myTemperatura');
+            const graficoHumedad = document.getElementById('myHumedad');
+            const graficoRadiacion = document.getElementById('myRadiacion');
+            const model = JSON.parse('@Json.Serialize(Model)')
+            
+            console.log(model)
+            if(model != null){
+                const stackedLine = new Chart(graficoTemperatura, {
+                    type: 'line',
+                    data: {
+
+                        labels: model.device_dates,
+                        datasets: [{
+                            label: "PROMEDIO",
+                            data: model.device_data[0].values.avg_Data,
+                            fill: false,
+                            borderColor: 'rgb(250, 160, 3)',
+                            tension: 0.1
+                        }, {
+                            label: " MAXIMA",
+                            data: model.device_data[0].values.max_Data,
+                            fill: false,
+                            borderColor: 'rgb(250, 3, 26)',
+                            tension: 0.1
+                        }, {
+                            label: " MINIMA",
+                            data: model.device_data[0].values.min_Data,
+                            fill: false,
+                            borderColor: 'rgb(127, 250, 3)',
+                            tension: 0.1
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            y: {
+                                stacked: true
+                            }
+                        }
+                    }
+                });
+
+                const stackedLine2 = new Chart(graficoHumedad, {
+                    type: 'line',
+                    data: {
+
+                        labels: model.device_dates,
+                        datasets: [{
+                            label: " PROMEDIO",
+                            data: model.device_data[1].values.avg_Data,
+                            fill: false,
+                            borderColor: 'rgb(250, 160, 3)',
+                            tension: 0.1
+                        }, {
+                            label: " MAXIMA",
+                            data: model.device_data[1].values.max_Data,
+                            fill: false,
+                            borderColor: 'rgb(250, 3, 26)',
+                            tension: 0.1
+                        }, {
+                            label: " MINIMA",
+                            data: model.device_data[1].values.min_Data,
+                            fill: false,
+                            borderColor: 'rgb(127, 250, 3)',
+                            tension: 0.1
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            y: {
+                                stacked: true
+                            }
+                        }
+                    }
+                });
+
+                const stackedLine3 = new Chart(graficoRadiacion, {
+                    type: 'line',
+                    data: {
+                        labels: model.device_dates,
+                        datasets: [{
+                            label: " PROMEDIO",
+                            data: model.device_data[2].values.avg_Data,
+                            fill: false,
+                            borderColor: 'rgb(250, 160, 3)',
+                            tension: 0.1
+                        }, {
+                            label: " MAXIMA",
+                            data: model.device_data[2].values.max_Data,
+                            fill: false,
+                            borderColor: 'rgb(250, 3, 26)',
+                            tension: 0.1
+                        }, {
+                            label: " MINIMA",
+                            data: model.device_data[2].values.min_Data,
+                            fill: false,
+                            borderColor: 'rgb(127, 250, 3)',
+                            tension: 0.1
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            y: {
+                                stacked: true
+                            }
+                        }
+                    }
+                });
+            }
+        }
+        
+
+        $(document).ready(()=>{
+            inicio()
+        })
+    </script>
+}

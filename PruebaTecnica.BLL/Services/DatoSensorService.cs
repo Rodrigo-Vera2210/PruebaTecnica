@@ -122,7 +122,7 @@ namespace PruebaTecnica.BLL.Services
         }
 
         // Metodo para la transformar las fechas en string para una mejor visualizacion
-        public async Task<List<string>> ObtenerFecha(string modo, DateTime fechaDesde, DateTime fechaHasta)
+        public List<string> ObtenerFecha(string modo, DateTime fechaDesde, DateTime fechaHasta)
         {
             List<string> fechas = new List<string>(); // array donde se acumulan las fechas
             /*

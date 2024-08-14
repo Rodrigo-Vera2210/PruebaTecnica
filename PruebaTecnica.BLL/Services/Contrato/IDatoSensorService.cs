@@ -11,6 +11,6 @@ namespace PruebaTecnica.BLL.Services.Contrato
     public interface IDatoSensorService
     {
         Task<List<ParametroSensorDTO>> Busqueda(string modo, DateTime fechaDesde, DateTime fechaHasta);
-        Task<List<string>> ObtenerFecha(string modo, DateTime fechaDesde, DateTime fechaHasta);
+        List<string> ObtenerFecha(string modo, DateTime fechaDesde, DateTime fechaHasta);
     }
 }

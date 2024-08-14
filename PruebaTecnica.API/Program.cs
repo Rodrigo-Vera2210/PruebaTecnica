@@ -18,6 +18,15 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.InyectarDependencia(builder.Configuration);
 
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(builder =>
+    {
+        builder
+            .WithOrigins("https://localhost:7179", "http://localhost:5007");
+    });
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
